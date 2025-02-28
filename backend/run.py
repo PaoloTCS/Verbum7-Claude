@@ -43,14 +43,15 @@ def check_prerequisites():
         logger.warning("OPENAI_API_KEY not found in environment variables. "
                       "Some semantic features will not work.")
 
+# Create the application instance
+app = create_app(get_environment())
+
 if __name__ == '__main__':
     try:
         check_prerequisites()
         env = get_environment()
         port = get_port()
         
-        # Create and configure the application instance
-        app = create_app(env)
         app.run(host='0.0.0.0', port=port, debug=(env == 'development'))
         
     except Exception as e:

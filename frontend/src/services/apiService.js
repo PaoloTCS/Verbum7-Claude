@@ -1,9 +1,12 @@
 // /Users/paolopignatelli/VerbumTechnologies/Verbum7-Claude/frontend/src/services/apiService.js
 import axios from 'axios';
 
+// Base URL - use environment variable in production
+const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
+
 // Create an axios instance with timeout
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: API_BASE_URL,
   timeout: 30000, // 30 seconds timeout
 });
 

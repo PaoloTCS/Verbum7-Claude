@@ -28,3 +28,38 @@
 - Use meaningful comments for complex logic
 - Organize imports alphabetically
 - 2-space indentation for JavaScript, 4-space for Python
+
+### Running the files
+
+# Navigate to the backend directory
+cd backend
+
+# Create and activate virtual environment (recommended)
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Navigate to the frontend directory
+cd frontend
+
+# Install Node.js dependencies
+npm install
+
+# Create .env file in the backend directory
+cd backend
+touch .env
+
+# Add necessary environment variables (using a text editor)
+# Example contents:
+# OPENAI_API_KEY=your_openai_api_key
+# SECRET_KEY=your_secret_key
+
+# From the backend directory, with virtual environment activated
+python run.py
+
+# In a new terminal, navigate to the frontend directory
+cd frontend
+npm start
+

@@ -16,7 +16,9 @@ def create_app(env):
     app = Flask(__name__, 
                 template_folder='templates',
                 static_folder='static')
-    CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://127.0.0.1:3000"]}})
+    # Allow all origins in production, or use environment variable
+    origins = os.getenv('ALLOWED_ORIGINS', 'http://localhost:3000,http://127.0.0.1:3000').split(',')
+    CORS(app, resources={r"/*": {"origins": origins}})
     
     # Configuration
     app.config.update(
