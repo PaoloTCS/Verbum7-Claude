@@ -1,0 +1,55 @@
+/* /Users/paolopignatelli/VerbumTechnologies/Verbum7-Claude/frontend/src/styles/DocumentUpload.css */
+.document-upload-container {
+    margin-top: 1.5rem;
+    max-width: 800px;
+  }
+  
+  .upload-button {
+    padding: 0.75rem 1.25rem;
+    background-color: #10b981;
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+  }
+  
+  .upload-button:hover {
+    background-color: #059669;
+  }
+  
+  .upload-form {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.375rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 1rem;
+  }
+  
+  .file-input {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border: 1px dashed #d1d5db;
+    border-radius: 0.375rem;
+    width: 100%;
+  }
+  
+  .selected-file {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background-color: #f3f4f6;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    color: #4b5563;
+  }
+  
+  .upload-error {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+  }
