@@ -1,10 +1,9 @@
 services:
   - type: web
     name: verbum7-claude-api
-    env: python
-    rootDir: backend
-    buildCommand: pip install -r ../requirements.txt
-    startCommand: gunicorn run:app
+    runtime: python3
+    buildCommand: pip install -r requirements.txt
+    startCommand: cd backend && gunicorn run:app
     envVars:
       - key: FLASK_ENV
         value: production
