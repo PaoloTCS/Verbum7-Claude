@@ -47,7 +47,7 @@ const VoronoiDiagram = ({
   /**
    * Position domains using semantic distances or initial positions
    */
-  const positionDomains = useCallback((domains, semanticDistances, width, height) => {
+  const positionDomains = (domains, semanticDistances, width, height) => {
     // Copy domains to avoid mutating props
     const positionedDomains = [...domains];
     
@@ -68,7 +68,7 @@ const VoronoiDiagram = ({
     
     // Otherwise, arrange in a circle
     return arrangeInCircle(positionedDomains, width, height);
-  }, []);
+  };
   
   /**
    * Position domains using D3 force layout based on semantic distances
@@ -141,7 +141,7 @@ const VoronoiDiagram = ({
   /**
    * Create the Voronoi diagram visualization
    */
-  const createVoronoiDiagram = useCallback((domains) => {
+  const createVoronoiDiagram = (domains) => {
     // Clear previous diagram
     d3.select(svgRef.current).selectAll('*').remove();
     
@@ -269,7 +269,7 @@ const VoronoiDiagram = ({
           });
       }
     });
-  }, [width, height, onDomainClick, onDeleteDomain, onDocumentClick]);
+  };
 
   return (
     <div className="voronoi-container">

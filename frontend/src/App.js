@@ -57,7 +57,7 @@ function App() {
   }, [currentParentId]);
   
   // Load domains from API
-  const loadDomains = useCallback(async () => {
+  const loadDomains = async () => {
     setLoading(true);
     setError(null);
     
@@ -82,7 +82,7 @@ function App() {
   }, [currentParentId]);
   
   // Load domain path for breadcrumbs
-  const loadDomainPath = useCallback(async () => {
+  const loadDomainPath = async () => {
     try {
       const path = await fetchDomainPath(currentParentId);
       setBreadcrumbPath(path);
