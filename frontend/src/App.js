@@ -1,5 +1,5 @@
 // /Users/paolopignatelli/VerbumTechnologies/Verbum7-Claude/frontend/src/App.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import BreadcrumbNav from './components/BreadcrumbNav';
 import VoronoiDiagram from './components/VoronoiDiagram';
 import DomainForm from './components/DomainForm';
@@ -55,7 +55,7 @@ function App() {
   }, [currentParentId]);
   
   // Load domains from API
-  const loadDomains = async () => {
+  const loadDomains = useCallback(async () => {
     setLoading(true);
     setError(null);
     
@@ -77,10 +77,10 @@ function App() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentParentId]);
   
   // Load domain path for breadcrumbs
-  const loadDomainPath = async () => {
+  const loadDomainPath = useCallback(async () => {
     try {
       const path = await fetchDomainPath(currentParentId);
       setBreadcrumbPath(path);
@@ -92,7 +92,7 @@ function App() {
     } catch (err) {
       console.error('Error loading domain path:', err);
     }
-  };
+  }, [currentParentId]);
   
   // Handle adding a new domain
   const handleAddDomain = async (name, description = '') => {

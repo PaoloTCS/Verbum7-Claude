@@ -1,5 +1,5 @@
 // /Users/paolopignatelli/VerbumTechnologies/Verbum7-Claude/frontend/src/components/VoronoiDiagram.js
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import * as d3 from 'd3';
 import { updateDomainPositions } from '../services/apiService';
 import '../styles/VoronoiDiagram.css';
@@ -41,13 +41,12 @@ const VoronoiDiagram = ({
       console.error('Error updating domain positions:', err);
     });
     
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [domains, semanticDistances, width, height]);
+  }, [domains, semanticDistances, width, height, positionDomains, createVoronoiDiagram]);
   
   /**
    * Position domains using semantic distances or initial positions
    */
-  const positionDomains = (domains, semanticDistances, width, height) => {
+  const positionDomains = useCallback((domains, semanticDistances, width, height) => {
     // Copy domains to avoid mutating props
     const positionedDomains = [...domains];
     
@@ -68,7 +67,7 @@ const VoronoiDiagram = ({
     
     // Otherwise, arrange in a circle
     return arrangeInCircle(positionedDomains, width, height);
-  };
+  }, []);
   
   /**
    * Position domains using D3 force layout based on semantic distances
@@ -141,7 +140,7 @@ const VoronoiDiagram = ({
   /**
    * Create the Voronoi diagram visualization
    */
-  const createVoronoiDiagram = (domains) => {
+  const createVoronoiDiagram = useCallback((domains) => {
     // Clear previous diagram
     d3.select(svgRef.current).selectAll('*').remove();
     
@@ -269,7 +268,7 @@ const VoronoiDiagram = ({
           });
       }
     });
-  };
+  }, [width, height, onDomainClick, onDeleteDomain, onDocumentClick]);
 
   return (
     <div className="voronoi-container">
