@@ -41,7 +41,8 @@ const VoronoiDiagram = ({
       console.error('Error updating domain positions:', err);
     });
     
-  }, [domains, semanticDistances, width, height, onDomainClick, onDocumentClick, onDeleteDomain]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [domains, semanticDistances, width, height]);
   
   /**
    * Position domains using semantic distances or initial positions

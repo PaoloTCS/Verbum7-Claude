@@ -38,11 +38,13 @@ function App() {
   const diagramHeight = 600;
   
   // Load domains at the current level
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     loadDomains();
   }, [currentParentId]);
   
   // Load domain path when parent changes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (currentParentId) {
       loadDomainPath();
