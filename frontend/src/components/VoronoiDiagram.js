@@ -20,6 +20,7 @@ const VoronoiDiagram = ({
   const diagramRef = useRef();
   
   // Draw the Voronoi diagram
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!svgRef.current || !domains || domains.length === 0) return;
     
@@ -40,8 +41,8 @@ const VoronoiDiagram = ({
     updateDomainPositions(positions).catch(err => {
       console.error('Error updating domain positions:', err);
     });
-    
-  }, [domains, semanticDistances, width, height, positionDomains, createVoronoiDiagram]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps  
+  }, [domains, semanticDistances, width, height]);
   
   /**
    * Position domains using semantic distances or initial positions

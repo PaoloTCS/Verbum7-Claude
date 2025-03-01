@@ -41,6 +41,7 @@ function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     loadDomains();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentParentId]);
   
   // Load domain path when parent changes
@@ -52,6 +53,7 @@ function App() {
       setBreadcrumbPath([]);
       setCurrentDomain(null);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentParentId]);
   
   // Load domains from API
