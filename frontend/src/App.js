@@ -1,5 +1,5 @@
 // /Users/paolopignatelli/VerbumTechnologies/Verbum7-Claude/frontend/src/App.js
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import BreadcrumbNav from './components/BreadcrumbNav';
 import VoronoiDiagram from './components/VoronoiDiagram';
 import DomainForm from './components/DomainForm';
@@ -37,32 +37,75 @@ function App() {
   const diagramWidth = 800;
   const diagramHeight = 600;
   
-  // Load domains at the current level
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    loadDomains();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentParentId]);
+  // Using useRef to store the current parent ID for effect reference
+  const currentParentIdRef = useRef(currentParentId);
   
-  // Load domain path when parent changes
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // Update domains whenever the current parent ID changes
   useEffect(() => {
-    if (currentParentId) {
-      loadDomainPath();
-    } else {
-      setBreadcrumbPath([]);
-      setCurrentDomain(null);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentParentId]);
+    // Update the ref when the actual state changes
+    currentParentIdRef.current = currentParentId;
+    
+    // Function to load domains (defined inside the effect)
+    const loadCurrentDomains = async () => {
+      setLoading(true);
+      setError(null);
+      
+      try {
+        const data = await fetchDomains(currentParentId);
+        setDomains(data.domains || []);
+        setSemanticDistances(data.semanticDistances || {});
+      } catch (err) {
+        console.error('Error loading domains:', err);
+        
+        // More specific error messages based on error type
+        if (err.response && err.response.status === 401) {
+          setError('Authentication error. Please check your API key.');
+        } else if (err.code === 'ECONNABORTED' || !err.response) {
+          setError('Network error. Please check your connection to the backend server.');
+        } else {
+          setError(`Failed to load domains: ${err.response?.data?.error || 'Unknown error'}`);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    // Call the function
+    loadCurrentDomains();
+    
+    // Also load the domain path
+    const loadCurrentDomainPath = async () => {
+      if (currentParentId) {
+        try {
+          const path = await fetchDomainPath(currentParentId);
+          setBreadcrumbPath(path);
+          
+          // Set current domain
+          if (path.length > 0) {
+            setCurrentDomain(path[path.length - 1]);
+          }
+        } catch (err) {
+          console.error('Error loading domain path:', err);
+        }
+      } else {
+        setBreadcrumbPath([]);
+        setCurrentDomain(null);
+      }
+    };
+    
+    loadCurrentDomainPath();
+  }, [currentParentId]); // Only dependency is currentParentId
   
-  // Load domains from API
+  // Load domains from API - now just a wrapper
   const loadDomains = async () => {
+    // Use the ref value to access the current parent ID
+    const parentId = currentParentIdRef.current;
+    
     setLoading(true);
     setError(null);
     
     try {
-      const data = await fetchDomains(currentParentId);
+      const data = await fetchDomains(parentId);
       setDomains(data.domains || []);
       setSemanticDistances(data.semanticDistances || {});
     } catch (err) {
@@ -79,12 +122,15 @@ function App() {
     } finally {
       setLoading(false);
     }
-  }, [currentParentId]);
+  };
   
   // Load domain path for breadcrumbs
   const loadDomainPath = async () => {
+    // Use the ref value to access the current parent ID
+    const parentId = currentParentIdRef.current;
+    
     try {
-      const path = await fetchDomainPath(currentParentId);
+      const path = await fetchDomainPath(parentId);
       setBreadcrumbPath(path);
       
       // Set current domain
@@ -94,7 +140,7 @@ function App() {
     } catch (err) {
       console.error('Error loading domain path:', err);
     }
-  }, [currentParentId]);
+  };
   
   // Handle adding a new domain
   const handleAddDomain = async (name, description = '') => {
